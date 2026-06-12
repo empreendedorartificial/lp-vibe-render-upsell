@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vibe Render — Sua primeira aula</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2428536680685666');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2428536680685666&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+<!-- ============================================================= -->
+<!--  AJUSTES RÁPIDOS — troque só o que estiver entre aspas        -->
+<!-- ============================================================= -->
+<script>
+window.CONFIG = {
+  // Botão de compra (aparece na minutagem do pitch)
+  botaoTexto: "QUERO GARANTIR ESSA CONDIÇÃO",
+  botaoLink: "https://buy.stripe.com/4gM28r0vr8S7cZ62iheIw0k",
+
+  // Segundo REAL do vídeo em que o pitch começa (1:30 = 90s)
+  mostrarEm: 90
+};
+</script>
+<!-- ============================================================= -->
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#faf8f4;--bg2:#f3efe7;
+--coral:#e8553d;--coral-d:#c94731;--coral-light:rgba(232,85,61,.08);
+--dark:#16130f;--text:#2b2620;--text2:#6b6258;--text3:#9a8f83;
+--border:rgba(22,19,15,.08);--border2:rgba(22,19,15,.16);
+--serif:'Playfair Display',serif;--sans:'Instrument Sans',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* barra do topo */
+.topbar{background:var(--dark);color:#fff;text-align:center;padding:11px 16px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+.topbar .ok{color:#7ed957}
+
+.wrap{max-width:680px;margin:0 auto;padding:40px 20px 70px;text-align:center}
+
+/* logo */
+.vr-logo{display:inline-flex;align-items:center;gap:10px;margin-bottom:26px}
+.vr-logo-mark{width:34px;height:34px;border-radius:10px;background:var(--coral);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(232,85,61,.25)}
+.vr-logo-mark svg{width:18px;height:18px}
+.vr-logo-type{font-family:var(--serif);font-size:19px;font-weight:900;letter-spacing:-.5px;color:var(--dark)}
+.vr-logo-type span{color:var(--coral)}
+
+/* headline */
+.tag{display:inline-flex;align-items:center;gap:8px;background:var(--coral-light);border:1px solid rgba(232,85,61,.18);border-radius:100px;padding:7px 16px;font-size:11.5px;color:var(--coral);font-weight:700;margin-bottom:20px;text-transform:uppercase;letter-spacing:.12em}
+.tag .dot{width:7px;height:7px;border-radius:50%;background:var(--coral);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+h1{font-family:var(--serif);font-size:clamp(27px,5.6vw,40px);font-weight:900;line-height:1.14;letter-spacing:-1px;color:var(--dark);margin-bottom:14px}
+h1 em{font-style:italic;color:var(--coral)}
+.sub{font-size:16px;color:var(--text2);max-width:520px;margin:0 auto 12px;line-height:1.7}
+.sub strong{color:var(--text)}
+.aviso-play{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--text2);letter-spacing:.08em;text-transform:uppercase;margin-bottom:26px}
+.aviso-play svg{width:15px;height:15px;animation:desce 1.3s ease-in-out infinite}
+@keyframes desce{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+
+/* player */
+.player{max-width:400px;margin:0 auto}
+
+/* bloco revelado no pitch */
+.oferta{max-height:0;opacity:0;overflow:hidden;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease,max-height .6s ease;pointer-events:none}
+.oferta.show{max-height:900px;opacity:1;transform:translateY(0);pointer-events:auto}
+.alerta{margin:34px auto 0;max-width:480px;background:#fff;border:2px solid var(--coral);border-radius:16px;padding:22px 24px 26px;box-shadow:0 18px 50px rgba(232,85,61,.16)}
+.alerta-tag{display:inline-block;background:var(--coral);color:#fff;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:6px 14px;border-radius:6px;margin:-38px auto 14px;box-shadow:0 6px 18px rgba(232,85,61,.35)}
+.alerta h2{font-family:var(--serif);font-size:clamp(20px,4vw,26px);font-weight:900;letter-spacing:-.5px;color:var(--dark);line-height:1.2;margin-bottom:10px}
+.alerta p{font-size:14px;color:var(--text2);line-height:1.65;margin-bottom:6px}
+.alerta p b{color:var(--coral)}
+.cta{display:block;background:var(--coral);color:#fff;text-decoration:none;text-align:center;font-size:clamp(16px,4vw,19px);font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:19px 22px;border-radius:13px;margin:18px 0 12px;box-shadow:0 12px 30px rgba(232,85,61,.4);animation:ctapulse 1.5s ease-in-out infinite;transition:background .2s}
+.cta:hover{background:var(--coral-d);animation-play-state:paused}
+@keyframes ctapulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+.nao-feche{font-family:var(--mono);font-size:10.5px;font-weight:700;color:var(--coral);letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:7px}
+.nao-feche svg{width:13px;height:13px;flex-shrink:0}
+
+footer{padding:26px 16px;border-top:1px solid var(--border);text-align:center;font-family:var(--mono);font-size:10px;color:#9a8f83;letter-spacing:.12em;text-transform:uppercase}
+</style>
+</head>
+<body>
+
+<div class="topbar"><span class="ok">&#10003;</span>&nbsp; Compra confirmada &bull; falta s&oacute; 1 passo</div>
+
+<main class="wrap">
+
+<div class="vr-logo">
+<div class="vr-logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+<div class="vr-logo-type"><span>Vibe</span> Render</div>
+</div>
+
+<div class="tag"><span class="dot"></span> Sua primeira aula come&ccedil;a agora</div>
+
+<h1>Antes de entrar no curso,<br>assista <em>esta aula</em> at&eacute; o final.</h1>
+<p class="sub">Esse v&iacute;deo &eacute; o <strong>ponto de partida do seu treinamento</strong>. Nele, o Montani te mostra a decis&atilde;o que separa quem faz renders comuns de quem vive disso &mdash; e algo que <strong>s&oacute; existe aqui, nesta p&aacute;gina</strong>. N&atilde;o pule.</p>
+<div class="aviso-play"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14m0 0l-6-6m6 6l6-6"/></svg> Aperte o play com o som ligado</div>
+
+<!-- VSL -->
+<div class="player">
+<vturb-smartplayer id="vid-6a2b62663244f7b854ac0c24" style="display:block;margin:0 auto;width:100%;max-width:400px"></vturb-smartplayer>
+</div>
+
+<!-- BLOCO REVELADO NA MINUTAGEM DO PITCH -->
+<div class="oferta" id="oferta">
+<div class="alerta">
+<div class="alerta-tag">&#9888; Oportunidade &uacute;nica</div>
+<h2>Essa condi&ccedil;&atilde;o existe <em>apenas nesta p&aacute;gina</em>.</h2>
+<p>Ela foi liberada porque voc&ecirc; acabou de entrar no Vibe Render &mdash; e <b>n&atilde;o aparece em nenhum outro lugar</b>: nem no site, nem dentro do curso, nem se voc&ecirc; chamar o suporte.</p>
+<p><b>Se fechar esta p&aacute;gina, ela desaparece para sempre.</b></p>
+<a id="cta" class="cta" href="#" target="_blank" rel="noopener"></a>
+<div class="nao-feche"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg> N&atilde;o feche nem atualize esta p&aacute;gina</div>
+</div>
+</div>
+
+</main>
+
+<footer>Vibe Render &copy; Todos os direitos reservados</footer>
+
+<!-- Player VTurb -->
+<script type="text/javascript">
+var s=document.createElement("script");
+s.src="https://scripts.converteai.net/5410d72a-3d75-4866-998c-d685b8982e29/players/6a2b62663244f7b854ac0c24/v4/player.js";
+s.async=!0;document.head.appendChild(s);
+</script>
+
+<!-- Revela a oferta na minutagem REAL do vídeo (funciona com aceleração e pulos) -->
+<script>
+(function(){
+var C=window.CONFIG;
+var cta=document.getElementById('cta');
+cta.textContent=C.botaoTexto;
+cta.href=C.botaoLink;
+var box=document.getElementById('oferta');
+var alvo=C.mostrarEm,revelado=false;
+
+function tempo(){
+try{
+var sp=window.smartplayer;
+if(!sp||!sp.instances||!sp.instances.length)return null;
+var i=sp.instances[0];
+if(i.video&&typeof i.video.currentTime==='number')return i.video.currentTime;
+if(typeof i.currentTime==='number')return i.currentTime;
+if(typeof i.getCurrentTime==='function')return i.getCurrentTime();
+return null;
+}catch(e){return null}
+}
+function revela(){
+if(revelado)return;
+revelado=true;
+box.classList.add('show');
+clearInterval(iv);
+try{fbq('trackCustom','UpsellPitchVisto')}catch(e){}
+}
+var iv=setInterval(function(){
+var t=tempo();
+if(t!==null&&t>=alvo)revela();
+},300);
+function liga(){
+var sp=window.smartplayer;
+if(sp&&sp.instances&&sp.instances.length&&typeof sp.instances[0].on==='function'){
+try{sp.instances[0].on('timeupdate',function(){var t=tempo();if(t!==null&&t>=alvo)revela()})}catch(e){}
+}else{setTimeout(liga,800)}
+}
+liga();
+})();
+</script>
+</body>
+</html>
