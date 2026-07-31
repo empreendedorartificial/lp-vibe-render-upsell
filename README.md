@@ -8,5 +8,7 @@ Página de upsell pós-compra do Vibe Render (oferta: desconto no plano anual do
 - **Pixel Meta**: 2428536680685666 (PageView + evento custom `UpsellPitchVisto` no pitch)
 - `noindex` ativo — página não deve ser indexada
 
-Deploy: GitHub + Cloudflare Pages (push na main → deploy automático em ~30s).
+Deploy: Cloudflare **Worker** (static assets). Publicar com `npx wrangler deploy` dentro da pasta — **push no git NÃO publica**. Commitar só pra histórico.
 Domínio: viberenderup.montani3d.com.br
+
+Tags no `<head>`: GTM `GTM-TRBNRTQN`, Meta Pixel `2428536680685666`, gtag global Google Ads `AW-11564358303` + snippet de conversão de compra `AW-11564358303/Yx-gCNvqy9kcEJ-1qIor` (dispara no load — é a página de obrigado pós-checkout do Vibe Render).
